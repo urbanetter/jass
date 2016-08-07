@@ -1,0 +1,15 @@
+{
+    "name": "urban/jass",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Urban Etter",
+            "email": "uetter@gmail.com"
+        }
+    ],
+    "autoload": {
+      "psr-4": {"Jass\\": "src/"}
+    },
+    "require": {}
+}
