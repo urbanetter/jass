@@ -5,6 +5,7 @@ namespace Jass\GameStyle;
 
 use Jass\Entity\Card;
 use Jass\Entity\Card\Value;
+use Jass\Entity\Team;
 use Jass\GameStyle;
 
 class TopDown extends GameStyle
@@ -36,6 +37,19 @@ class TopDown extends GameStyle
         $values = [Value::EIGHT => 8, Value::TEN => 10, Value::JACK => 2, Value::QUEEN => 3, Value::KING => 4, Value::ACE => 11];
 
         return (isset($values[$card->value])) ? $values[$card->value] : 0;
+    }
+
+    public function teamPoints($tricks, Team $team)
+    {
+        $points = \Jass\Table\teamPoints($tricks, $team, $this);
+
+        $lastOne = array_slice($tricks, -1);
+        $winnerOfLastOne = \Jass\Trick\winner($lastOne[0], $this);
+        $points += ($winnerOfLastOne->team == $team) ? 5 : 0;
+
+        $points += ($points == 157) ? 100 : 0;
+
+        return $points;
     }
 
 }

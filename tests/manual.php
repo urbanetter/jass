@@ -65,6 +65,6 @@ while ($players[0]->hand) {
 
 echo "Done.\n";
 
-echo "Result of team " . $teamUeliAndHeinz . ": " . Table\teamPoints($teamUeliAndHeinz, $playedTricks, $gameStyle) . "\n";
-echo "Result of team " . $teamSandyAndPeter . ": " . Table\teamPoints($teamSandyAndPeter, $playedTricks, $gameStyle) . "\n";
+echo "Result of team " . $teamUeliAndHeinz . ": " . $gameStyle->teamPoints($playedTricks, $teamUeliAndHeinz) . "\n";
+echo "Result of team " . $teamSandyAndPeter . ": " . $gameStyle->teamPoints($playedTricks, $teamSandyAndPeter) . "\n";
 

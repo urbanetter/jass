@@ -23,7 +23,7 @@ function deal(Set $set, $players)
     return $players;
 }
 
-function teamPoints(Team $team, $tricks, GameStyle $gameStyle)
+function teamPoints($tricks, Team $team, GameStyle $gameStyle)
 {
     $tricks = array_filter($tricks, function(Trick $trick) use ($team, $gameStyle){
         return ($team == \Jass\Trick\winner($trick, $gameStyle)->team);
