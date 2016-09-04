@@ -39,19 +39,32 @@ Table\deal($cardSet, $players);
 $gameStyle = new \Jass\GameStyle\TopDown();
 $strategy = new \Jass\Player\Simple();
 
-$trick = new Trick();
 $player = $gameStyle->beginningPlayer($players);
+$playedTricks = [];
 
-while(!\Jass\Trick\isFinished($trick, $players)) {
-    $card = $strategy->nextCard($gameStyle, $trick, $player);
+while ($players[0]->hand) {
+    $trick = new Trick();
 
-    echo $player . " plays " . $card . "\n";
+    echo "\nNew Trick\n";
 
-    \Jass\Player\playTurn($trick, $player, $card);
+    while(!\Jass\Trick\isFinished($trick, $players)) {
+        $card = $strategy->nextCard($gameStyle, $trick, $player);
 
-    $player = $player->nextPlayer;
+        echo $player . " plays " . $card . "\n";
+
+        \Jass\Player\playTurn($trick, $player, $card);
+
+        $player = $player->nextPlayer;
+    }
+
+    $player = \Jass\Trick\winner($trick, $gameStyle);
+
+    echo "Points: " . \Jass\Trick\points($trick, $gameStyle) . " for team " . $player->team . "\n";
+    $playedTricks[] = $trick;
 }
 
-$player = \Jass\Trick\winner($trick, $gameStyle);
+echo "Done.\n";
 
-echo "winner is " . $player . "\n";
+echo "Result of team " . $teamUeliAndHeinz . ": " . Table\teamPoints($teamUeliAndHeinz, $playedTricks, $gameStyle) . "\n";
+echo "Result of team " . $teamSandyAndPeter . ": " . Table\teamPoints($teamSandyAndPeter, $playedTricks, $gameStyle) . "\n";
+

@@ -4,7 +4,6 @@ namespace Jass\GameStyle;
 
 
 use Jass\Entity\Card;
-use Jass\Entity\Card\Suit;
 use Jass\Entity\Card\Value;
 use Jass\GameStyle;
 
@@ -12,10 +11,10 @@ class TopDown extends GameStyle
 {
     /**
      * @param Card $card
-     * @param Suit $leadingSuit
+     * @param string $leadingSuit
      * @return int
      */
-    public function orderValue(Card $card, Suit $leadingSuit = null)
+    public function orderValue(Card $card, $leadingSuit = null)
     {
         $order = [Value::SIX, Value::SEVEN, Value::EIGHT, Value::NINE, Value::TEN, Value::JACK, Value::QUEEN, Value::KING, Value::ACE];
         $result = array_search($card->value, $order);
@@ -30,6 +29,13 @@ class TopDown extends GameStyle
     public function beginningPlayer($players)
     {
         return $players[array_rand($players)];
+    }
+
+    public function points(Card $card)
+    {
+        $values = [Value::EIGHT => 8, Value::TEN => 10, Value::JACK => 2, Value::QUEEN => 3, Value::KING => 4, Value::ACE => 11];
+
+        return (isset($values[$card->value])) ? $values[$card->value] : 0;
     }
 
 }

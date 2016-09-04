@@ -26,3 +26,8 @@ function playTurn(Trick $trick, Player $player, Card $card)
 
     $trick->turns[] = $turn;
 }
+
+function isInMyTeam(Player $myself, Player $other)
+{
+    return $myself->team == $other->team;
+}
