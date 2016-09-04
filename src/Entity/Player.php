@@ -14,6 +14,23 @@ class Player
      */
     public $hand;
 
+    /**
+     * @var Team
+     */
+    public $team;
+
+    /**
+     * @var Player
+     */
+    public $nextPlayer;
+
+    /**
+     * @param string $name
+     */
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
 
     public function __toString()
     {

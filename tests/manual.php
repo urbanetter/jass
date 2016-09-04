@@ -1,44 +1,57 @@
 <?php
 
-require ("../vendor/autoload.php");
+use Jass\Entity\Game;
+use Jass\CardSet;
+use Jass\Entity\Trick;
+use Jass\Table;
 
+require (__DIR__ . "/../vendor/autoload.php");
 
 echo "Hoi.\n";
 
-$dealer = new \Jass\Service\DealerService();
-$set = \Jass\Service\SetService::getJassSet();
+$game = new Game();
 
-$hans = new \Jass\Entity\Player();
-$hans->name = "Hans";
+$ueli = new \Jass\Entity\Player("Ueli");
+$sandy = new \Jass\Entity\Player("Sandy");
+$heinz = new \Jass\Entity\Player("Heinz");
+$peter = new \Jass\Entity\Player("Peter");
 
-$fridolin = new \Jass\Entity\Player();
-$fridolin->name = "Fridolin";
+$teamUeliAndHeinz = new \Jass\Entity\Team('Ueli and Heinz');
+$teamSandyAndPeter = new \Jass\Entity\Team('Sandy and Peter');
 
-$fritz = new \Jass\Entity\Player();
-$fritz->name = "Fritz";
+$ueli->team = $teamUeliAndHeinz;
+$ueli->nextPlayer = $sandy;
 
-$heidi = new \Jass\Entity\Player();
-$heidi->name = "Heidi";
+$sandy->team = $teamSandyAndPeter;
+$sandy->nextPlayer = $heinz;
 
-$players = [$hans, $fridolin, $fritz, $heidi];
+$heinz->team = $teamUeliAndHeinz;
+$heinz->nextPlayer = $peter;
 
-$players = $dealer->deal($set, $players);
+$peter->team = $teamSandyAndPeter;
+$peter->nextPlayer = $ueli;
 
-$simplePlayerStrategy = new \Jass\Player\Random();
-$topDownGame = new \Jass\Game\TopDown();
+$players = [$ueli, $sandy, $heinz, $peter];
 
+$cardSet = CardSet\jassSet();
+Table\deal($cardSet, $players);
 
-echo "First Round, Obe Abe\n";
+$gameStyle = new \Jass\GameStyle\TopDown();
+$strategy = new \Jass\Player\Simple();
 
-$turns = [];
-foreach ($players as $player) {
-    $turns = $simplePlayerStrategy->play($player, $turns);
+$trick = new Trick();
+$player = $gameStyle->beginningPlayer($players);
+
+while(!\Jass\Trick\isFinished($trick, $players)) {
+    $card = $strategy->nextCard($gameStyle, $trick, $player);
+
+    echo $player . " plays " . $card . "\n";
+
+    \Jass\Player\playTurn($trick, $player, $card);
+
+    $player = $player->nextPlayer;
 }
 
-foreach ($turns as $turn) {
-    echo (string) $turn->player . " plays " . (string) $turn->card . "\n";
-}
+$player = \Jass\Trick\winner($trick, $gameStyle);
 
-$winner = $topDownGame->getWinningTurn($turns);
-
-echo "Winner of the turn is " . $winner->player->name . "\n";
+echo "winner is " . $player . "\n";

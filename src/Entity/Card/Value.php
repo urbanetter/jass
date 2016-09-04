@@ -1,6 +1,6 @@
 <?php
 
-namespace Jass\Entity;
+namespace Jass\Entity\Card;
 
 class Value
 {

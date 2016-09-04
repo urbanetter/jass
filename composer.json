@@ -9,7 +9,14 @@
         }
     ],
     "autoload": {
-      "psr-4": {"Jass\\": "src/"}
+        "psr-4": {"Jass\\": "src/"},
+        "files": [
+            "src/CardSetFunctions.php",
+            "src/HandFunctions.php",
+            "src/PlayerFunctions.php",
+            "src/TableFunctions.php",
+            "src/TrickFunctions.php"
+        ]
     },
     "require": {}
 }
