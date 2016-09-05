@@ -11,6 +11,17 @@ Run it yourself
 git clone git@github.com:urbanetter/jass.git
 cd jass
 composer dumpautoload
-cd tests
-php manual.php
+php tests/manual.php
 ```
+
+Some simple tests
+-----------------
+
+I've run 50 x 1000 games with the strategies implemented. All players use the smae strategy.
+The numbers show how many times the starting player wins using the given strategy.
+
+| Strategy | How many games the strategy wins out of 1000 |
+-----------------------------------------------------------
+| Dumb     | 485                                          |
+| Simple   | 428                                          |
+-----------------------------------------------------------

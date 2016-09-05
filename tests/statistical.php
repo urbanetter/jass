@@ -8,7 +8,7 @@ require (__DIR__ . "/../vendor/autoload.php");
 list ($teams, $players) = require 'teamsetup.php';
 
 $gameStyle = new \Jass\GameStyle\TopDown();
-$strategy = new \Jass\Strategy\Dumb();
+$strategy = new \Jass\Strategy\Simple();
 
 $data = [];
 for ($i = 0; $i < 1000; $i++) {
@@ -50,4 +50,4 @@ $line[] = count(array_filter($data, function($points) { return $points > 78;}));
 $line[] = count(array_filter($data, function($points) { return $points == 257;}));
 $line[] = count(array_filter($data, function($points) { return $points == 0;}));
 
-file_put_contents(__DIR__ . "/../data/dumb_strategy.csv", implode(", ", $line) . "\n", FILE_APPEND);
+file_put_contents(__DIR__ . "/../data/simple_strategy.csv", implode(", ", $line) . "\n", FILE_APPEND);
