@@ -3,21 +3,21 @@
 namespace Jass\Table;
 
 
-use Jass\Entity\Card\Set;
 use Jass\Entity\Team;
 use Jass\Entity\Trick;
 use Jass\GameStyle\GameStyle;
 
-function deal(Set $set, $players)
+function deal($cards, $players)
 {
-    $cards = $set->cards;
-    shuffle($cards);
+    foreach ($players as $player) {
+        $player->hand = [];
+    }
 
-    $playerNumber = 0;
+    $player = $players[0];
     while (count($cards)) {
         $card = array_pop($cards);
-        $players[$playerNumber]->hand[] = $card;
-        $playerNumber = ($playerNumber < 3) ? $playerNumber + 1 : 0;
+        $player->hand[] = $card;
+        $player = $player->nextPlayer;
     }
 
     return $players;

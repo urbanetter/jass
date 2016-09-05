@@ -4,7 +4,6 @@ namespace Jass\CardSet;
 
 
 use Jass\Entity\Card;
-use Jass\Entity\Card\Set;
 use Jass\Entity\Card\Suit;
 use Jass\Entity\Card\Value;
 
@@ -26,16 +25,16 @@ function testSet()
 
 function bySuitsAndValues($suits, $values)
 {
-    $set = new Set();
+    $cards = [];
     foreach ($suits as $suit) {
         foreach ($values as $value) {
             $card = new Card();
             $card->suit = $suit;
             $card->value = $value;
 
-            $set->cards[] = $card;
+            $cards[] = $card;
         }
     }
 
-    return $set;
+    return $cards;
 }

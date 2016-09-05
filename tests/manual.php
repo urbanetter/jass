@@ -1,6 +1,5 @@
 <?php
 
-use Jass\Entity\Game;
 use Jass\CardSet;
 use Jass\Entity\Trick;
 use Jass\Table;
@@ -9,31 +8,10 @@ require (__DIR__ . "/../vendor/autoload.php");
 
 echo "Hoi.\n";
 
-$game = new Game();
-
-$ueli = new \Jass\Entity\Player("Ueli");
-$sandy = new \Jass\Entity\Player("Sandy");
-$heinz = new \Jass\Entity\Player("Heinz");
-$peter = new \Jass\Entity\Player("Peter");
-
-$teamUeliAndHeinz = new \Jass\Entity\Team('Ueli and Heinz');
-$teamSandyAndPeter = new \Jass\Entity\Team('Sandy and Peter');
-
-$ueli->team = $teamUeliAndHeinz;
-$ueli->nextPlayer = $sandy;
-
-$sandy->team = $teamSandyAndPeter;
-$sandy->nextPlayer = $heinz;
-
-$heinz->team = $teamUeliAndHeinz;
-$heinz->nextPlayer = $peter;
-
-$peter->team = $teamSandyAndPeter;
-$peter->nextPlayer = $ueli;
-
-$players = [$ueli, $sandy, $heinz, $peter];
+list ($teams, $players) = require 'teamsetup.php';
 
 $cardSet = CardSet\jassSet();
+shuffle($cardSet);
 Table\deal($cardSet, $players);
 
 $gameStyle = new \Jass\GameStyle\TopDown();
@@ -65,6 +43,7 @@ while ($players[0]->hand) {
 
 echo "Done.\n";
 
-echo "Result of team " . $teamUeliAndHeinz . ": " . $gameStyle->teamPoints($playedTricks, $teamUeliAndHeinz) . "\n";
-echo "Result of team " . $teamSandyAndPeter . ": " . $gameStyle->teamPoints($playedTricks, $teamSandyAndPeter) . "\n";
+foreach ($teams as $team) {
+    echo "Result of team " . $team . ": " . $gameStyle->teamPoints($playedTricks, $team) . "\n";
+}
 
