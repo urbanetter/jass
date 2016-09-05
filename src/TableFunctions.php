@@ -6,7 +6,7 @@ namespace Jass\Table;
 use Jass\Entity\Card\Set;
 use Jass\Entity\Team;
 use Jass\Entity\Trick;
-use Jass\GameStyle;
+use Jass\GameStyle\GameStyle;
 
 function deal(Set $set, $players)
 {

@@ -6,7 +6,6 @@ namespace Jass\GameStyle;
 use Jass\Entity\Card;
 use Jass\Entity\Card\Value;
 use Jass\Entity\Team;
-use Jass\GameStyle;
 
 class TopDown extends GameStyle
 {

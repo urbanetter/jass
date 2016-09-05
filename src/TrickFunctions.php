@@ -4,7 +4,7 @@ namespace Jass\Trick;
 
 use Jass\Entity\Card;
 use Jass\Entity\Trick;
-use Jass\GameStyle;
+use Jass\GameStyle\GameStyle;
 
 function isFinished(Trick $trick, $players)
 {

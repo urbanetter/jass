@@ -37,7 +37,7 @@ $cardSet = CardSet\jassSet();
 Table\deal($cardSet, $players);
 
 $gameStyle = new \Jass\GameStyle\TopDown();
-$strategy = new \Jass\Player\Simple();
+$strategy = new \Jass\Strategy\Simple();
 
 $player = $gameStyle->beginningPlayer($players);
 $playedTricks = [];

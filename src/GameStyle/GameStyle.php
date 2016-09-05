@@ -1,6 +1,6 @@
 <?php
 
-namespace Jass;
+namespace Jass\GameStyle;
 
 
 use Jass\Entity\Card;

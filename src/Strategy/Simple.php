@@ -1,12 +1,11 @@
 <?php
 
-namespace Jass\Player;
+namespace Jass\Strategy;
 
 
 use Jass\Entity\Player;
 use Jass\Entity\Trick;
-use Jass\GameStyle;
-use Jass\Strategy;
+use Jass\GameStyle\GameStyle;
 use Jass\Hand;
 
 class Simple extends Strategy

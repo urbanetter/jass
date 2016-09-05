@@ -1,11 +1,12 @@
 <?php
 
-namespace Jass;
+namespace Jass\Strategy;
 
 
 use Jass\Entity\Card;
 use Jass\Entity\Player;
 use Jass\Entity\Trick;
+use Jass\GameStyle\GameStyle;
 
 abstract class Strategy
 {
