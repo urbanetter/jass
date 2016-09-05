@@ -23,4 +23,4 @@ The numbers show how many times the starting player wins using the given strateg
 | Strategy | How many games the strategy wins out of 1000 |
 | -------- | ---------------------------------------------|
 | Dumb     | 485                                          |
-| Simple   | 428                                          |
+| Simple   | 431                                          |
