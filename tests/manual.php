@@ -15,7 +15,7 @@ shuffle($cardSet);
 Table\deal($cardSet, $players);
 
 $gameStyle = new \Jass\GameStyle\TopDown();
-$strategy = new \Jass\Strategy\Simple();
+$strategy = new \Jass\Strategy\Bock();
 
 $player = $gameStyle->beginningPlayer($players);
 $playedTricks = [];
@@ -36,6 +36,7 @@ while ($players[0]->hand) {
     }
 
     $player = \Jass\Trick\winner($trick, $gameStyle);
+    $strategy->lookAtTrick($trick);
 
     echo "Points: " . \Jass\Trick\points($trick, $gameStyle) . " for team " . $player->team . "\n";
     $playedTricks[] = $trick;

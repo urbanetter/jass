@@ -5,10 +5,19 @@ use function Jass\Table\deal;
 
 require (__DIR__ . "/../vendor/autoload.php");
 
+$strategyName = $argv[1];
+
+$className = 'Jass\\Strategy\\' . ucfirst($strategyName);
+if (!class_exists($className)) {
+    echo "Unknown strategy $strategyName";
+    die;
+}
+
 list ($teams, $players) = require 'teamsetup.php';
 
 $gameStyle = new \Jass\GameStyle\TopDown();
-$strategy = new \Jass\Strategy\Simple();
+/** @var Jass\Strategy\Strategy $strategy */
+$strategy = new $className();
 
 $data = [];
 for ($i = 0; $i < 1000; $i++) {
@@ -31,6 +40,7 @@ for ($i = 0; $i < 1000; $i++) {
         }
 
         $player = \Jass\Trick\winner($trick, $gameStyle);
+        $strategy->lookAtTrick($trick);
 
         $playedTricks[] = $trick;
     }
@@ -50,4 +60,4 @@ $line[] = count(array_filter($data, function($points) { return $points > 78;}));
 $line[] = count(array_filter($data, function($points) { return $points == 257;}));
 $line[] = count(array_filter($data, function($points) { return $points == 0;}));
 
-file_put_contents(__DIR__ . "/../data/simple_strategy.csv", implode(", ", $line) . "\n", FILE_APPEND);
+file_put_contents(__DIR__ . "/../data/${strategyName}_strategy.csv", implode(", ", $line) . "\n", FILE_APPEND);
