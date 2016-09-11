@@ -125,11 +125,6 @@ function bestSuit($playedCards, $hand, $orderFunction)
     $suits = CardSet\suits();
     $bestSuit = array_reduce($suits, function($best, $suit) use ($playedCards, $hand, $orderFunction) {
         $suitScore = potential($playedCards, $hand, $suit, $orderFunction);
-        echo "Potential of $suit $suitScore: ";
-        foreach (suit($hand, $suit) as $card) {
-            echo $card . " ";
-        }
-        echo "\n";
         if (!$best) {
             return $suit;
         }
@@ -140,6 +135,5 @@ function bestSuit($playedCards, $hand, $orderFunction)
         }
     });
 
-    echo "Best suit is $bestSuit\n";
     return $bestSuit;
 }

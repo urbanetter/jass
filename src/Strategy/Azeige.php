@@ -28,13 +28,10 @@ class Azeige extends Bock
 
             // will we win?
             if ($card != Hand\bock($this->playedCards, $card->suit, [$gameStyle, 'orderValue'])) {
-                echo "$player: My card will not win, so checking for azeigt strategy\n";
                 if (Player\knows($player, "azeigt") && Hand\canFollowSuit($player->hand, Player\recall($player, 'azeigt'))) {
-                    echo "$player: I recall and can follow suit!\n";
                     $card = Hand\highest(Hand\suit($player->hand, Player\recall($player, 'azeigt')), [$gameStyle, 'orderValue']);
                     Player\forget($player, "azeigt");
                 } else {
-                    echo "$player: I cannot recall a azeigt or i cant't follow suit, so I do a azeigt\n";
                     $bestSuit = Hand\bestSuit($this->playedCards, $player->hand, [$gameStyle, 'orderValue']);
                     Player\remember($player, 'selfAzeigt', $bestSuit);
                     $card = Hand\lowest(Hand\suit($player->hand, $bestSuit), [$gameStyle, 'orderValue']);
@@ -45,10 +42,8 @@ class Azeige extends Bock
                 $leadingCard = $trick->turns[0]->card;
                 if ($leadingCard != Hand\bock($this->playedCards, $leadingCard->suit, [$gameStyle, 'orderValue'])) {
                     if (Player\knows($player, 'selfAzeigt')) {
-                        echo "$player: Ah, my partner helps me!!\n";
                         Player\forget($player, 'selfAzeigt');
                     } else {
-                        echo "$player: I realize that I need to memorize " . $leadingCard->suit . "\n";
                         // no winner card, treat it like "azeigt"
                         Player\remember($player, "azeigt", $leadingCard->suit);
                     }
