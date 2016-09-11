@@ -30,3 +30,4 @@ $contraMatches = array_map(function($line) {
 
 echo "Recorded sets of 1000 games: " . count($lines) . "\n";
 echo "Average wins out of 1000 games: " . (round(array_sum($wins) / count($wins))) . "\n";
+echo "Average matches out of 1000 games: " . (round(array_sum($matches) / count($matches)) + round(array_sum($contraMatches) / count($contraMatches))) . "\n";
