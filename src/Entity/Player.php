@@ -25,6 +25,11 @@ class Player
     public $nextPlayer;
 
     /**
+     * @var array
+     */
+    public $brain;
+
+    /**
      * @param string $name
      */
     public function __construct($name)

@@ -15,7 +15,7 @@ shuffle($cardSet);
 Table\deal($cardSet, $players);
 
 $gameStyle = new \Jass\GameStyle\TopDown();
-$strategy = new \Jass\Strategy\Bock();
+$strategy = new \Jass\Strategy\Azeige();
 
 $player = $gameStyle->beginningPlayer($players);
 $playedTricks = [];

@@ -18,5 +18,8 @@
             "src/TrickFunctions.php"
         ]
     },
-    "require": {}
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "5.5.*"
+    }
 }

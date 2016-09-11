@@ -18,7 +18,7 @@ class Bock extends Strategy
         if (!$trick->leadingSuit) {
             $card = Hand\highest($player->hand, [$gameStyle, 'orderValue']);
             foreach (CardSet\suits() as $suit) {
-                $bockCard = $this->bock($suit, [$gameStyle, 'orderValue']);
+                $bockCard = Hand\bock($this->playedCards, $suit, [$gameStyle, 'orderValue']);
                 if (in_array($bockCard, $player->hand)) {
                     $card = $bockCard;
                     break;
@@ -39,12 +39,4 @@ class Bock extends Strategy
         return $card;
     }
 
-    public function bock($suit, $orderFunction)
-    {
-        $playedSuit = Hand\suit($this->playedCards, $suit);
-        $fullSuit = Hand\suit(CardSet\jassSet(), $suit);
-
-        $unplayed = array_diff($fullSuit, $playedSuit);
-        return Hand\highest($unplayed, $orderFunction);
-    }
 }
