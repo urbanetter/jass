@@ -33,7 +33,7 @@ class Azeige extends Bock
                     Player\forget($player, "azeigt");
                 } else {
                     $bestSuit = Hand\bestSuit($this->playedCards, $player->hand, [$gameStyle, 'orderValue']);
-                    Player\remember($player, 'selfAzeigt', $bestSuit);
+                    Player\remember($player, 'azoge', $bestSuit);
                     $card = Hand\lowest(Hand\suit($player->hand, $bestSuit), [$gameStyle, 'orderValue']);
                 }
             }
@@ -41,8 +41,9 @@ class Azeige extends Bock
             if (Player\isInMyTeam($player, $trick->turns[0]->player)) {
                 $leadingCard = $trick->turns[0]->card;
                 if ($leadingCard != Hand\bock($this->playedCards, $leadingCard->suit, [$gameStyle, 'orderValue'])) {
-                    if (Player\knows($player, 'selfAzeigt')) {
-                        Player\forget($player, 'selfAzeigt');
+                    if (Player\knows($player, 'azoge')) {
+                        // leading player gave this card, so do not treat it as "azeigt"
+                        Player\forget($player, 'azoge');
                     } else {
                         // no winner card, treat it like "azeigt"
                         Player\remember($player, "azeigt", $leadingCard->suit);

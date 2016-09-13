@@ -28,6 +28,8 @@ for ($i = 0; $i < 1000; $i++) {
     $player = $players[0];
     $playedTricks = [];
 
+    echo ".";
+
     while ($player->hand) {
         $trick = new Trick();
 

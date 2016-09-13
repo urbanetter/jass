@@ -42,6 +42,12 @@ function remember(Player $player, $what, $value)
     $player->brain[$what] = $value;
 }
 
+function rememberMore(Player $player, $what, $value)
+{
+    $player->brain[$what][] = $value;
+    $player->brain[$what] = array_unique($player->brain[$what]);
+}
+
 function recall(Player $player, $what)
 {
     return $player->brain[$what];

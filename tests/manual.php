@@ -15,7 +15,7 @@ shuffle($cardSet);
 Table\deal($cardSet, $players);
 
 $gameStyle = new \Jass\GameStyle\TopDown();
-$strategy = new \Jass\Strategy\Azeige();
+$strategy = new \Jass\Strategy\Verrueren();
 
 $player = $gameStyle->beginningPlayer($players);
 $playedTricks = [];
@@ -29,6 +29,12 @@ while ($players[0]->hand) {
         $card = $strategy->nextCard($gameStyle, $trick, $player);
 
         echo $player . " plays " . $card . "\n";
+
+        if ($player == $players[0]) {
+            echo "\nThoughts of Ueli\n==================\n";
+            echo implode("\n", $strategy->logs);
+            echo "\n\n";
+        }
 
         \Jass\Player\playTurn($trick, $player, $card);
 

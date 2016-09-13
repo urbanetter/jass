@@ -6,6 +6,7 @@ namespace Jass\CardSet;
 use Jass\Entity\Card;
 use Jass\Entity\Card\Suit;
 use Jass\Entity\Card\Value;
+use Jass\Hand;
 
 function jassSet()
 {
@@ -39,7 +40,14 @@ function bySuitsAndValues($suits, $values)
     return $cards;
 }
 
-function suits()
+function suits($hand = null)
 {
-    return [Suit::ROSE, Suit::BELL, Suit::OAK, Suit::SHIELD];
+    $suits = [Suit::ROSE, Suit::BELL, Suit::OAK, Suit::SHIELD];
+    if (is_null($hand)) {
+        return $suits;
+    } else {
+        return array_filter($suits, function($suit) use ($hand) {
+            return count(Hand\suit($hand, $suit));
+        });
+    }
 }

@@ -15,6 +15,8 @@ abstract class Strategy
      */
     protected $playedCards = [];
 
+    public $logs = [];
+
     /**
      * @param GameStyle $gameStyle
      * @param Trick $trick
@@ -25,6 +27,12 @@ abstract class Strategy
 
     public function lookAtTrick(Trick $trick)
     {
-        $this->playedCards += \Jass\Trick\playedCards($trick);
+        $this->playedCards = array_merge($this->playedCards,  \Jass\Trick\playedCards($trick));
     }
+
+    protected function log($msg)
+    {
+        $this->logs[] = $msg;
+    }
+
 }

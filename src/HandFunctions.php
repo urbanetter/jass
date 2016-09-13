@@ -67,10 +67,17 @@ function highest($hand, $orderFunction)
  */
 function ordered($hand, $orderFunction)
 {
-    usort($hand, function ($a, $b) use ($orderFunction) {
-        return $orderFunction($b) <=> $orderFunction($a);
-    });
-    return $hand;
+    $suits = CardSet\suits($hand);
+    $result = [];
+    foreach ($suits as $suit) {
+        $cards = suit($hand, $suit);
+        usort($cards, function ($a, $b) use ($orderFunction) {
+            return $orderFunction($b) <=> $orderFunction($a);
+        });
+        $result = array_merge($result, $cards);
+    }
+
+    return $result;
 }
 
 /**
@@ -97,7 +104,6 @@ function bock($playedCards, $suit, $orderFunction)
  */
 function potential($playedCards, $hand, $suit, $orderFunction)
 {
-    $playedCards = suit($playedCards, $suit);
     $cards = suit($hand, $suit);
 
     if (!count($cards)) {
@@ -105,7 +111,8 @@ function potential($playedCards, $hand, $suit, $orderFunction)
     }
 
     $neededCards = 0;
-    while (!in_array(bock($playedCards, $suit, $orderFunction), $cards) && $neededCards < count($cards)) {
+
+    while (bock($playedCards, $suit, $orderFunction) && !in_array(bock($playedCards, $suit, $orderFunction), $cards) && $neededCards < count($cards)) {
         $playedCards[] = bock($playedCards, $suit, $orderFunction);
         $neededCards++;
     }
@@ -136,4 +143,35 @@ function bestSuit($playedCards, $hand, $orderFunction)
     });
 
     return $bestSuit;
+}
+
+function worstSuit($playedCards, $hand, $orderFunction)
+{
+    $suits = CardSet\suits();
+    $suits = array_filter($suits, function($suit) use ($hand) {
+        return count(suit($hand, $suit));
+    });
+    $worstSuit = array_reduce($suits, function($worst, $suit) use ($playedCards, $hand, $orderFunction) {
+        $suitScore = potential($playedCards, $hand, $suit, $orderFunction);
+        if (!$worst) {
+            return $suit;
+        }
+        if ($suitScore < potential($playedCards, $hand, $worst, $orderFunction)) {
+            return $suit;
+        } else {
+            return $worst;
+        }
+    });
+
+    return $worstSuit;
+}
+
+function first($array)
+{
+    return array_slice($array, 0, 1)[0];
+}
+
+function last($array)
+{
+    return array_slice($array, -1)[0];
 }
