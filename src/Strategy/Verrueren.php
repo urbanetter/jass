@@ -8,7 +8,6 @@ use Jass\Entity\Trick as TrickEntity;
 use Jass\GameStyle\GameStyle;
 use Jass\Hand;
 use Jass\Trick;
-use Jass\CardSet;
 use Jass\Player;
 
 class Verrueren extends Bock
@@ -37,7 +36,7 @@ class Verrueren extends Bock
                     if (Player\knows($player, 'verrüert')) {
                         $this->log("$player knows the following suits are verrüert: " . implode(Player\recall($player, 'verrüert')));
 
-                        $suits = CardSet\suits($player->hand);
+                        $suits = Hand\suitsOfHand($player->hand);
                         $suits = array_diff($suits, Player\recall($player, 'verrüert'));
 
                         $this->log("$player: potential suits: " . implode(", ", $suits));

@@ -67,7 +67,7 @@ function highest($hand, $orderFunction)
  */
 function ordered($hand, $orderFunction)
 {
-    $suits = CardSet\suits($hand);
+    $suits = suitsOfHand($hand);
     $result = [];
     foreach ($suits as $suit) {
         $cards = suit($hand, $suit);
@@ -89,7 +89,7 @@ function ordered($hand, $orderFunction)
 function bock($playedCards, $suit, $orderFunction)
 {
     $playedSuit = suit($playedCards, $suit);
-    $fullSuit = suit(CardSet\jassSet(), $suit);
+    $fullSuit = CardSet\bySuitsAndValues([$suit], CardSet\values());
 
     $unplayed = array_diff($fullSuit, $playedSuit);
     return highest($unplayed, $orderFunction);
@@ -112,9 +112,11 @@ function potential($playedCards, $hand, $suit, $orderFunction)
 
     $neededCards = 0;
 
-    while (bock($playedCards, $suit, $orderFunction) && !in_array(bock($playedCards, $suit, $orderFunction), $cards) && $neededCards < count($cards)) {
-        $playedCards[] = bock($playedCards, $suit, $orderFunction);
+    $bestCard = bock($playedCards, $suit, $orderFunction);
+    while ($bestCard && !in_array($bestCard, $cards) && $neededCards < count($cards)) {
+        $playedCards[] = $bestCard;
         $neededCards++;
+        $bestCard = bock($playedCards, $suit, $orderFunction);
     }
 
     $potential = 0;
@@ -129,12 +131,12 @@ function potential($playedCards, $hand, $suit, $orderFunction)
 
 function bestSuit($playedCards, $hand, $orderFunction)
 {
-    $suits = CardSet\suits();
+    $suits = suitsOfHand($hand);
     $bestSuit = array_reduce($suits, function($best, $suit) use ($playedCards, $hand, $orderFunction) {
-        $suitScore = potential($playedCards, $hand, $suit, $orderFunction);
         if (!$best) {
             return $suit;
         }
+        $suitScore = potential($playedCards, $hand, $suit, $orderFunction);
         if ($suitScore > potential($playedCards, $hand, $best, $orderFunction)) {
             return $suit;
         } else {
@@ -147,15 +149,12 @@ function bestSuit($playedCards, $hand, $orderFunction)
 
 function worstSuit($playedCards, $hand, $orderFunction)
 {
-    $suits = CardSet\suits();
-    $suits = array_filter($suits, function($suit) use ($hand) {
-        return count(suit($hand, $suit));
-    });
+    $suits = suitsOfHand($hand);
     $worstSuit = array_reduce($suits, function($worst, $suit) use ($playedCards, $hand, $orderFunction) {
-        $suitScore = potential($playedCards, $hand, $suit, $orderFunction);
         if (!$worst) {
             return $suit;
         }
+        $suitScore = potential($playedCards, $hand, $suit, $orderFunction);
         if ($suitScore < potential($playedCards, $hand, $worst, $orderFunction)) {
             return $suit;
         } else {
@@ -174,4 +173,13 @@ function first($array)
 function last($array)
 {
     return array_slice($array, -1)[0];
+}
+
+function suitsOfHand($hand)
+{
+    $suits = array_map(function (Card $card) {
+        return $card->suit;
+    }, $hand);
+
+    return array_unique($suits);
 }
