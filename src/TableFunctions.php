@@ -4,8 +4,9 @@ namespace Jass\Table;
 
 
 use Jass\Entity\Team;
-use Jass\Entity\Trick;
+use Jass\Entity\Trick as TrickEntity;
 use Jass\GameStyle\GameStyle;
+use Jass\Trick;
 
 function deal($cards, $players)
 {
@@ -25,11 +26,11 @@ function deal($cards, $players)
 
 function teamPoints($tricks, Team $team, GameStyle $gameStyle)
 {
-    $tricks = array_filter($tricks, function(Trick $trick) use ($team, $gameStyle){
-        return ($team == \Jass\Trick\winner($trick, $gameStyle)->team);
+    $tricks = array_filter($tricks, function(TrickEntity $trick) use ($team, $gameStyle){
+        return ($team == Trick\winner($trick, $gameStyle)->team);
     });
 
-    return array_sum(array_map(function(Trick $trick) use ($gameStyle) {
-        return \Jass\Trick\points($trick, $gameStyle);
+    return array_sum(array_map(function(TrickEntity $trick) use ($gameStyle) {
+        return Trick\points($trick, $gameStyle);
     }, $tricks));
 }
