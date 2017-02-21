@@ -9,6 +9,7 @@ use Jass\Entity\Team;
 
 class TopDown extends GameStyle
 {
+
     /**
      * @param Card $card
      * @param string $leadingSuit
@@ -16,7 +17,7 @@ class TopDown extends GameStyle
      */
     public function orderValue(Card $card, $leadingSuit = null)
     {
-        $order = [Value::SIX, Value::SEVEN, Value::EIGHT, Value::NINE, Value::TEN, Value::JACK, Value::QUEEN, Value::KING, Value::ACE];
+        $order = $this->order();
         $result = array_search($card->value, $order);
 
         // increase order if its the same suit like leading turn
@@ -24,6 +25,11 @@ class TopDown extends GameStyle
             $result += 100;
         }
         return $result;
+    }
+
+    protected function order()
+    {
+        return [Value::SIX, Value::SEVEN, Value::EIGHT, Value::NINE, Value::TEN, Value::JACK, Value::QUEEN, Value::KING, Value::ACE];
     }
 
     public function beginningPlayer($players)
@@ -49,6 +55,11 @@ class TopDown extends GameStyle
         $points += ($points == 157) ? 100 : 0;
 
         return $points;
+    }
+
+    public function name()
+    {
+        return "Obäabä";
     }
 
 }

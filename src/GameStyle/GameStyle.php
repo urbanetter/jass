@@ -17,4 +17,11 @@ abstract class GameStyle
 
     abstract public function teamPoints($tricks, Team $team);
 
+    abstract public function name();
+
+    public function __toString()
+    {
+        return $this->name();
+    }
+
 }
